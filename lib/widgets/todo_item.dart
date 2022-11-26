@@ -4,7 +4,15 @@ import 'package:todo_flutter/model/todo.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
-  const TodoItem({super.key, required this.todo});
+  final onToDoChanged;
+  final onDeleted;
+
+  //Constructor
+  const TodoItem(
+      {super.key,
+      required this.todo,
+      required this.onToDoChanged,
+      required this.onDeleted});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +25,8 @@ class TodoItem extends StatelessWidget {
         tileColor: Colors.white,
         leading: IconButton(
           onPressed: () {
+            // calling _handleTodoChanged
+            onToDoChanged(todo);
             print('checked');
           },
           icon: Icon(
@@ -33,6 +43,8 @@ class TodoItem extends StatelessWidget {
         ),
         trailing: IconButton(
           onPressed: () {
+            // calling handleTodoDeleted
+            onDeleted(todo.id);
             print('deleted');
           },
           icon: const Icon(

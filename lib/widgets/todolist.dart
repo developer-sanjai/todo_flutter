@@ -10,7 +10,19 @@ class Todolist extends StatefulWidget {
 }
 
 class _TodolistState extends State<Todolist> {
-  final todos = Todo.todoList();
+  final _todos = Todo.todoList();
+  void _handleToDoChange(Todo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
+
+  void _handleToDoDeleted(int id) {
+    print("triggering..");
+    setState(() {
+      _todos.removeWhere((todo) => todo.id == id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +38,11 @@ class _TodolistState extends State<Todolist> {
               ),
             ),
           ]),
-          for (var todo in todos)
+          for (var todo in _todos)
             TodoItem(
               todo: todo,
+              onDeleted: _handleToDoDeleted,
+              onToDoChanged: _handleToDoChange,
             ),
         ],
       ),
