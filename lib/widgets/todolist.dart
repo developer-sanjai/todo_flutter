@@ -3,27 +3,16 @@ import 'package:flutter/widgets.dart';
 import 'package:todo_flutter/model/todo.dart';
 import 'package:todo_flutter/widgets/todo_item.dart';
 
-class Todolist extends StatefulWidget {
-  const Todolist({super.key});
-  @override
-  State<Todolist> createState() => _TodolistState();
-}
-
-class _TodolistState extends State<Todolist> {
-  final _todos = Todo.todoList();
-  void _handleToDoChange(Todo todo) {
-    setState(() {
-      todo.isDone = !todo.isDone;
-    });
-  }
-
-  void _handleToDoDeleted(int id) {
-    print("triggering..");
-    setState(() {
-      _todos.removeWhere((todo) => todo.id == id);
-    });
-  }
-
+class Todolist extends StatelessWidget {
+  final handleToDoChange;
+  final handleToDoDeleted;
+  final todos;
+  const Todolist(
+      {super.key,
+      required this.todos,
+      required this.handleToDoChange,
+      required this.handleToDoDeleted});
+  // final _todos = Todo.todoList();
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -38,11 +27,11 @@ class _TodolistState extends State<Todolist> {
               ),
             ),
           ]),
-          for (var todo in _todos)
+          for (var todo in todos)
             TodoItem(
               todo: todo,
-              onDeleted: _handleToDoDeleted,
-              onToDoChanged: _handleToDoChange,
+              onDeleted: handleToDoDeleted,
+              onToDoChanged: handleToDoChange,
             ),
         ],
       ),
